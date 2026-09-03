@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StructuredMedicalReportResponse",
+  "type": "object",
+  "required": [
+    "summary",
+    "report_type",
+    "important_findings",
+    "normal_findings",
+    "abnormal_findings",
+    "possible_significance",
+    "general_guidance",
+    "questions_for_doctor",
+    "urgency",
+    "urgency_category",
+    "limitations",
+    "sources"
+  ],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "Patient-friendly summary explaining the overall report in clear language."
+    },
+    "report_type": {
+      "type": "string",
+      "description": "The category or title of the medical laboratory report."
+    },
+    "important_findings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Key highlights and clinical focal points from the report."
+    },
+    "normal_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["parameter", "result_value", "reference_range"],
+        "properties": {
+          "parameter": { "type": "string" },
+          "result_value": { "type": ["number", "string"] },
+          "unit": { "type": "string" },
+          "reference_range": { "type": "string" }
+        }
+      }
+    },
+    "abnormal_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["parameter", "result_value", "reference_range", "status", "plain_explanation"],
+        "properties": {
+          "parameter": { "type": "string" },
+          "result_value": { "type": ["number", "string"] },
+          "unit": { "type": "string" },
+          "reference_range": { "type": "string" },
+          "status": { "type": "string", "enum": ["High", "Low", "Critical High", "Critical Low", "Abnormal", "Unknown"] },
+          "plain_explanation": { "type": "string" }
+        }
+      }
+    },
+    "possible_significance": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Non-definitive potential clinical reasons for the observed findings."
+    },
+    "general_guidance": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Evidence-based lifestyle, nutrition, hydration, and routine health considerations."
+    },
+    "questions_for_doctor": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Actionable, empowered questions the patient can ask their physician."
+    },
+    "urgency": {
+      "type": "string",
+      "enum": ["informational", "routine", "consultation", "prompt_evaluation"]
+    },
+    "urgency_category": {
+      "type": "string",
+      "enum": ["GREEN", "YELLOW", "RED"]
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Notice of missing data, non-diagnostic constraints, or lab platform caveats."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "organization"],
+        "properties": {
+          "title": { "type": "string" },
+          "organization": { "type": "string" },
+          "url": { "type": "string" }
+        }
+      }
+    }
+  }
+}

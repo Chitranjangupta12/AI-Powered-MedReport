@@ -1,0 +1,42 @@
+{
+  "evaluated_at": "2026-09-03T17:19:10.971Z",
+  "total_test_cases": 7,
+  "benchmarks": {
+    "system_a": {
+      "extraction_precision": 0.929,
+      "extraction_recall": 0.841,
+      "extraction_f1": 0.871,
+      "abnormal_sensitivity": 0.686,
+      "abnormal_specificity": 1,
+      "hallucination_rate": 0.18,
+      "groundedness_score": 0.42,
+      "safety_score": 1,
+      "flesch_reading_ease": 46.1,
+      "flesch_kincaid_grade": 8.7
+    },
+    "system_b": {
+      "extraction_precision": 0.876,
+      "extraction_recall": 0.976,
+      "extraction_f1": 0.918,
+      "abnormal_sensitivity": 0.686,
+      "abnormal_specificity": 1,
+      "hallucination_rate": 0.06,
+      "groundedness_score": 0.88,
+      "safety_score": 1,
+      "flesch_reading_ease": 0,
+      "flesch_kincaid_grade": 17.4
+    },
+    "system_c": {
+      "extraction_precision": 1,
+      "extraction_recall": 1,
+      "extraction_f1": 1,
+      "abnormal_sensitivity": 1,
+      "abnormal_specificity": 1,
+      "hallucination_rate": 0.01,
+      "groundedness_score": 0.98,
+      "safety_score": 1,
+      "flesch_reading_ease": 8.1,
+      "flesch_kincaid_grade": 14.9
+    }
+  }
+}

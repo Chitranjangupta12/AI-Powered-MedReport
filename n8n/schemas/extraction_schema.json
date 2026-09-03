@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MedicalReportExtractionSchema",
+  "type": "object",
+  "required": ["report_type", "parameters"],
+  "properties": {
+    "report_type": {
+      "type": "string"
+    },
+    "specimen_date": {
+      "type": "string"
+    },
+    "laboratory_name": {
+      "type": "string"
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["parameter", "result_value", "reference_range"],
+        "properties": {
+          "parameter": { "type": "string" },
+          "result_value": { "type": ["number", "string"] },
+          "unit": { "type": "string" },
+          "reference_range": { "type": "string" },
+          "flag": { "type": "string" }
+        }
+      }
+    },
+    "raw_notes": {
+      "type": "string"
+    }
+  }
+}

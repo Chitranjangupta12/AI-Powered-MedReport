@@ -1,0 +1,198 @@
+[
+  {
+    "id": "syn-rep-001",
+    "report_name": "Synthetic CBC Report - Moderate Anemia",
+    "report_type": "Complete Blood Count (CBC)",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "Jane Synthetic Doe",
+      "age": 34,
+      "gender": "Female",
+      "specimen_date": "2026-03-01"
+    },
+    "raw_report_text": "ACME MEDICAL DIAGNOSTICS LABORATORY\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: Jane Synthetic Doe | Age: 34 | Sex: F | Date: 03/01/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nHemoglobin                 9.4       g/dL       12.0 - 15.5       LOW\nRed Blood Cell (RBC) Count 3.4       10^6/uL    4.0 - 5.2         LOW\nWhite Blood Cell (WBC)     6.8       10^3/uL    4.5 - 11.0        NORMAL\nPlatelet Count             240       10^3/uL    150 - 450         NORMAL\nMean Corpuscular Vol (MCV) 72.0      fL         80.0 - 100.0      LOW\nHematocrit                 29.0      %          37.0 - 48.0       LOW\n-----------------------------------------------------------------------\nTechnician: Synthetic System\nInterpretation: Microcytic hypochromic profile, suggestive of iron deficiency anemia.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "Hemoglobin", "value": 9.4, "unit": "g/dL", "ref_low": 12.0, "ref_high": 15.5, "status": "Low" },
+        { "name": "Red Blood Cell (RBC) Count", "value": 3.4, "unit": "10^6/uL", "ref_low": 4.0, "ref_high": 5.2, "status": "Low" },
+        { "name": "White Blood Cell (WBC)", "value": 6.8, "unit": "10^3/uL", "ref_low": 4.5, "ref_high": 11.0, "status": "Normal" },
+        { "name": "Platelet Count", "value": 240, "unit": "10^3/uL", "ref_low": 150, "ref_high": 450, "status": "Normal" },
+        { "name": "Mean Corpuscular Vol (MCV)", "value": 72.0, "unit": "fL", "ref_low": 80.0, "ref_high": 100.0, "status": "Low" },
+        { "name": "Hematocrit", "value": 29.0, "unit": "%", "ref_low": 37.0, "ref_high": 48.0, "status": "Low" }
+      ],
+      "abnormal_count": 4,
+      "normal_count": 2,
+      "urgency": "consultation",
+      "urgency_category": "YELLOW",
+      "critical_findings": ["Hemoglobin 9.4 g/dL is significantly lower than normal range (12.0 - 15.5 g/dL)"],
+      "recommended_doctor_questions": ["What is causing my low hemoglobin?", "Should I undergo iron studies or ferritin testing?"]
+    }
+  },
+  {
+    "id": "syn-rep-002",
+    "report_name": "Synthetic Lipid Profile - Hyperlipidemia",
+    "report_type": "Lipid Panel",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "John Synthetic Smith",
+      "age": 52,
+      "gender": "Male",
+      "specimen_date": "2026-03-02"
+    },
+    "raw_report_text": "METRO HEALTH CLINICAL LABS\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: John Synthetic Smith | Age: 52 | Sex: M | Date: 03/02/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nTotal Cholesterol          265       mg/dL      < 200             HIGH\nTriglycerides              220       mg/dL      < 150             HIGH\nHDL Cholesterol (Good)     38        mg/dL      > 40              LOW\nLDL Cholesterol (Calculated) 183     mg/dL      < 100             HIGH\nCholesterol / HDL Ratio    7.0       ratio      < 5.0             HIGH\n-----------------------------------------------------------------------\nClinical Notes: Mixed dyslipidemia pattern. Cardiovascular risk assessment recommended.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "Total Cholesterol", "value": 265, "unit": "mg/dL", "ref_low": 0, "ref_high": 200, "status": "High" },
+        { "name": "Triglycerides", "value": 220, "unit": "mg/dL", "ref_low": 0, "ref_high": 150, "status": "High" },
+        { "name": "HDL Cholesterol", "value": 38, "unit": "mg/dL", "ref_low": 40, "ref_high": 999, "status": "Low" },
+        { "name": "LDL Cholesterol", "value": 183, "unit": "mg/dL", "ref_low": 0, "ref_high": 100, "status": "High" },
+        { "name": "Cholesterol / HDL Ratio", "value": 7.0, "unit": "ratio", "ref_low": 0, "ref_high": 5.0, "status": "High" }
+      ],
+      "abnormal_count": 5,
+      "normal_count": 0,
+      "urgency": "consultation",
+      "urgency_category": "YELLOW",
+      "critical_findings": ["LDL Cholesterol at 183 mg/dL and Total Cholesterol at 265 mg/dL reflect elevated cardiovascular risk"],
+      "recommended_doctor_questions": ["What dietary and lifestyle modifications are recommended?", "Should we calculate my 10-year ASCVD risk score?"]
+    }
+  },
+  {
+    "id": "syn-rep-003",
+    "report_name": "Synthetic Liver Function Test - Acute Elevation",
+    "report_type": "Liver Function Test (LFT)",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "Alex Synthetic Taylor",
+      "age": 45,
+      "gender": "Non-binary",
+      "specimen_date": "2026-03-03"
+    },
+    "raw_report_text": "BIO-CARE PATHOLOGY SERVICES\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: Alex Synthetic Taylor | Age: 45 | Date: 03/03/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nALT (Alanine Transaminase) 412       U/L        7 - 56            CRITICAL HIGH\nAST (Aspartate Transaminase) 385     U/L        10 - 40           CRITICAL HIGH\nAlkaline Phosphatase (ALP) 115       U/L        44 - 147          NORMAL\nTotal Bilirubin            2.8       mg/dL      0.2 - 1.2         HIGH\nSerum Albumin              4.1       g/dL       3.5 - 5.0         NORMAL\nTotal Protein              7.2       g/dL       6.0 - 8.3         NORMAL\n-----------------------------------------------------------------------\nALERT: ALT and AST over 7x upper limit of normal. Prompt medical evaluation required.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "ALT", "value": 412, "unit": "U/L", "ref_low": 7, "ref_high": 56, "status": "High" },
+        { "name": "AST", "value": 385, "unit": "U/L", "ref_low": 10, "ref_high": 40, "status": "High" },
+        { "name": "Alkaline Phosphatase", "value": 115, "unit": "U/L", "ref_low": 44, "ref_high": 147, "status": "Normal" },
+        { "name": "Total Bilirubin", "value": 2.8, "unit": "mg/dL", "ref_low": 0.2, "ref_high": 1.2, "status": "High" },
+        { "name": "Serum Albumin", "value": 4.1, "unit": "g/dL", "ref_low": 3.5, "ref_high": 5.0, "status": "Normal" }
+      ],
+      "abnormal_count": 3,
+      "normal_count": 2,
+      "urgency": "prompt_evaluation",
+      "urgency_category": "RED",
+      "critical_findings": ["ALT (412 U/L) and AST (385 U/L) are markedly elevated >7x upper limit, requiring prompt medical evaluation"],
+      "recommended_doctor_questions": ["Do I need an urgent liver ultrasound or viral hepatitis serologies?", "Could any current medications or supplements have triggered this acute irritation?"]
+    }
+  },
+  {
+    "id": "syn-rep-004",
+    "report_name": "Synthetic Kidney Function Test - Mild Impairment",
+    "report_type": "Kidney Function Test (KFT / Renal Panel)",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "Robert Synthetic Miller",
+      "age": 68,
+      "gender": "Male",
+      "specimen_date": "2026-03-04"
+    },
+    "raw_report_text": "APEX CLINICAL DIAGNOSTICS\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: Robert Synthetic Miller | Age: 68 | Sex: M | Date: 03/04/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nSerum Creatinine           1.65      mg/dL      0.70 - 1.30       HIGH\nBlood Urea Nitrogen (BUN)  28        mg/dL      7 - 20            HIGH\neGFR                       48        mL/min     >= 60             LOW\nSerum Sodium               139       mEq/L      136 - 145         NORMAL\nSerum Potassium            4.7       mEq/L      3.5 - 5.1         NORMAL\nChloride                   102       mEq/L      98 - 107          NORMAL\n-----------------------------------------------------------------------\nNotes: Reduced estimated GFR (<60 mL/min). Recommend hydration check and nephrology consultation.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "Serum Creatinine", "value": 1.65, "unit": "mg/dL", "ref_low": 0.70, "ref_high": 1.30, "status": "High" },
+        { "name": "Blood Urea Nitrogen (BUN)", "value": 28, "unit": "mg/dL", "ref_low": 7, "ref_high": 20, "status": "High" },
+        { "name": "eGFR", "value": 48, "unit": "mL/min", "ref_low": 60, "ref_high": 999, "status": "Low" },
+        { "name": "Serum Sodium", "value": 139, "unit": "mEq/L", "ref_low": 136, "ref_high": 145, "status": "Normal" },
+        { "name": "Serum Potassium", "value": 4.7, "unit": "mEq/L", "ref_low": 3.5, "ref_high": 5.1, "status": "Normal" }
+      ],
+      "abnormal_count": 3,
+      "normal_count": 3,
+      "urgency": "consultation",
+      "urgency_category": "YELLOW",
+      "critical_findings": ["eGFR at 48 mL/min and Creatinine at 1.65 mg/dL indicate reduced kidney filtration clearance"],
+      "recommended_doctor_questions": ["Are any of my routine medications affecting my kidney filtration?", "Should we recheck these values after hydration, and perform a urine protein test?"]
+    }
+  },
+  {
+    "id": "syn-rep-005",
+    "report_name": "Synthetic Thyroid Profile - Subclinical Hypothyroidism",
+    "report_type": "Thyroid Panel",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "Maria Synthetic Garcia",
+      "age": 41,
+      "gender": "Female",
+      "specimen_date": "2026-03-05"
+    },
+    "raw_report_text": "ENDOCRINE DIAGNOSTICS INC\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: Maria Synthetic Garcia | Age: 41 | Sex: F | Date: 03/05/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nTSH (Ultrasensitive)       6.85      uIU/mL     0.45 - 4.50       HIGH\nFree T4                    1.12      ng/dL      0.82 - 1.77       NORMAL\nTotal T3                   118       ng/dL      80 - 200          NORMAL\nThyroid Peroxidase (TPO) Ab 45       IU/mL      < 35              HIGH\n-----------------------------------------------------------------------\nInterpretation: Elevated TSH with normal Free T4 is consistent with mild/subclinical hypothyroidism.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "TSH", "value": 6.85, "unit": "uIU/mL", "ref_low": 0.45, "ref_high": 4.50, "status": "High" },
+        { "name": "Free T4", "value": 1.12, "unit": "ng/dL", "ref_low": 0.82, "ref_high": 1.77, "status": "Normal" },
+        { "name": "Total T3", "value": 118, "unit": "ng/dL", "ref_low": 80, "ref_high": 200, "status": "Normal" },
+        { "name": "Thyroid Peroxidase (TPO) Ab", "value": 45, "unit": "IU/mL", "ref_low": 0, "ref_high": 35, "status": "High" }
+      ],
+      "abnormal_count": 2,
+      "normal_count": 2,
+      "urgency": "routine",
+      "urgency_category": "YELLOW",
+      "critical_findings": ["TSH is elevated at 6.85 uIU/mL with normal Free T4 (subclinical hypothyroidism pattern)"],
+      "recommended_doctor_questions": ["Should we monitor my thyroid levels in 6-12 weeks before considering treatment?", "Could my symptoms of tiredness be related to this mild elevation?"]
+    }
+  },
+  {
+    "id": "syn-rep-006",
+    "report_name": "Synthetic Fasting Blood Glucose & HbA1c - Prediabetes",
+    "report_type": "Glycemic Profile",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "David Synthetic Kim",
+      "age": 49,
+      "gender": "Male",
+      "specimen_date": "2026-03-06"
+    },
+    "raw_report_text": "CENTRAL CLINICAL PATHOLOGY\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: David Synthetic Kim | Age: 49 | Sex: M | Date: 03/06/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nFasting Blood Glucose      114       mg/dL      70 - 99           HIGH\nHbA1c (Glycated Hb)        5.9       %          < 5.7             HIGH\nEstimated Avg Glucose (eAG) 123      mg/dL      < 117             HIGH\n-----------------------------------------------------------------------\nInterpretation: Fasting blood glucose between 100-125 mg/dL and HbA1c 5.7-6.4% indicate prediabetes.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "Fasting Blood Glucose", "value": 114, "unit": "mg/dL", "ref_low": 70, "ref_high": 99, "status": "High" },
+        { "name": "HbA1c", "value": 5.9, "unit": "%", "ref_low": 0, "ref_high": 5.7, "status": "High" },
+        { "name": "Estimated Avg Glucose", "value": 123, "unit": "mg/dL", "ref_low": 0, "ref_high": 117, "status": "High" }
+      ],
+      "abnormal_count": 3,
+      "normal_count": 0,
+      "urgency": "routine",
+      "urgency_category": "YELLOW",
+      "critical_findings": ["Fasting blood glucose (114 mg/dL) and HbA1c (5.9%) are in the prediabetes range"],
+      "recommended_doctor_questions": ["What dietary and physical exercise changes can help reverse prediabetes?", "When should I repeat an HbA1c test?"]
+    }
+  },
+  {
+    "id": "syn-rep-007",
+    "report_name": "Synthetic Urinalysis - Normal Routine",
+    "report_type": "Urinalysis Routine",
+    "synthetic_watermark": "SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY - NOT REAL PATIENT DATA",
+    "patient_metadata": {
+      "name": "Sarah Synthetic Brown",
+      "age": 28,
+      "gender": "Female",
+      "specimen_date": "2026-03-07"
+    },
+    "raw_report_text": "COMMUNITY HEALTH LABORATORIES\n*** SYNTHETIC DEMO REPORT - FOR TESTING PURPOSES ONLY ***\nPatient: Sarah Synthetic Brown | Age: 28 | Sex: F | Date: 03/07/2026\nTEST NAME                  RESULT    UNIT       REFERENCE RANGE   FLAG\n-----------------------------------------------------------------------\nColor                      Pale Yellow          Pale Yellow       NORMAL\nClarity                    Clear                Clear             NORMAL\nSpecific Gravity           1.018     ratio      1.005 - 1.030     NORMAL\npH                         6.2       pH         5.0 - 8.0         NORMAL\nProtein                    Negative             Negative          NORMAL\nGlucose                    Negative             Negative          NORMAL\nKetones                    Negative             Negative          NORMAL\nLeukocyte Esterase         Negative             Negative          NORMAL\nNitrite                    Negative             Negative          NORMAL\nMicroscopic WBC            1         /HPF       0 - 5             NORMAL\nMicroscopic RBC            0         /HPF       0 - 2             NORMAL\n-----------------------------------------------------------------------\nInterpretation: Normal routine urinalysis. No cellular or chemical abnormalities detected.",
+    "ground_truth": {
+      "parameters": [
+        { "name": "Color", "value": "Pale Yellow", "unit": "", "ref_low": null, "ref_high": null, "status": "Normal" },
+        { "name": "Specific Gravity", "value": 1.018, "unit": "ratio", "ref_low": 1.005, "ref_high": 1.030, "status": "Normal" },
+        { "name": "pH", "value": 6.2, "unit": "pH", "ref_low": 5.0, "ref_high": 8.0, "status": "Normal" },
+        { "name": "Protein", "value": "Negative", "unit": "", "ref_low": null, "ref_high": null, "status": "Normal" },
+        { "name": "Glucose", "value": "Negative", "unit": "", "ref_low": null, "ref_high": null, "status": "Normal" },
+        { "name": "Leukocyte Esterase", "value": "Negative", "unit": "", "ref_low": null, "ref_high": null, "status": "Normal" },
+        { "name": "Nitrite", "value": "Negative", "unit": "", "ref_low": null, "ref_high": null, "status": "Normal" }
+      ],
+      "abnormal_count": 0,
+      "normal_count": 7,
+      "urgency": "informational",
+      "urgency_category": "GREEN",
+      "critical_findings": [],
+      "recommended_doctor_questions": ["Are there any other routine health checkups indicated for my age group?"]
+    }
+  }
+]

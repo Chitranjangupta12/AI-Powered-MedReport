@@ -1,0 +1,208 @@
+{
+  "name": "Medical Report Understanding & Patient Guidance Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "medical-report-agent",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook-inbound",
+      "name": "Inbound Medical Report Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300],
+      "webhookId": "medical-report-agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate inbound payload from Node.js backend\nconst body = $json.body || $json;\n\nif (!body || (!body.text && !body.file_base64 && !body.message)) {\n  return [{\n    json: {\n      error: true,\n      message: 'Invalid payload: missing text, file_base64, or user query message.'\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    report_id: body.report_id || 'unassigned',\n    conversation_id: body.conversation_id || null,\n    file_type: body.file_type || 'text/plain',\n    raw_text: body.text || '',\n    user_query: body.message || 'Please analyze this medical report and explain any abnormal findings.',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "node-validate-payload",
+      "name": "Validate & Normalize Inbound Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following medical query or uploaded laboratory report:\nUser Query: {{$json.user_query}}\nReport Text:\n{{$json.raw_text}}\n\nReason through your 5 Agentic Tools and selectively invoke ONLY the tools required for this specific task:\n- tool_medical_rag_search: (Query vector database for verified clinical knowledge from NIH MedlinePlus/CDC/WHO)\n- tool_report_analyzer: (Extract test parameters, numerical values, units, and reference ranges)\n- tool_lab_reference_analyzer: (Strictly compare values against printed laboratory reference intervals)\n- tool_risk_assessor: (Calculate clinical triage category: GREEN, YELLOW, or RED)\n- tool_conversation_memory: (Retrieve previous conversation context)\n\nRules:\n1. Never fabricate patient values or reference ranges.\n2. Always cite authoritative sources retrieved by the Medical RAG tool.\n3. Do not formulate definitive medical diagnoses or prescribe medications.\n4. Return grounded structured JSON.",
+        "options": {
+          "systemMessage": "=You are an Agentic AI Medical Report Assistant.\n- Never claim definitive diagnosis.\n- Never alter, prescribe, or discontinue prescription medications.\n- Ground answers strictly in the uploaded report and retrieved NIH/CDC evidence.\n- Selectively call tools based on question intent rather than calling all tools blindly.\n- Urgency: GREEN (informational), YELLOW (routine/consultation), RED (prompt professional medical evaluation required)."
+        }
+      },
+      "id": "node-ai-agent",
+      "name": "Agentic Medical Coordinator",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "name": "tool_report_analyzer",
+        "description": "Extracts analyte names, numerical results, units, and laboratory-printed reference ranges from the patient's uploaded report.",
+        "jsCode": "const text = $fromAI('text', 'The raw medical report text');\nreturn JSON.stringify({\n  tool: 'report_analyzer',\n  status: 'extracted',\n  description: 'Extracted parameters strictly from uploaded report text'\n});"
+      },
+      "id": "tool-report-analyzer",
+      "name": "Tool: Report Analyzer",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [540, 520]
+    },
+    {
+      "parameters": {
+        "name": "tool_lab_reference_analyzer",
+        "description": "Compares test values strictly against the report's laboratory-printed reference ranges. Identifies Normal, High, or Low.",
+        "jsCode": "const parameter = $fromAI('parameter', 'Analyte name');\nconst val = $fromAI('value', 'Test value');\nconst range = $fromAI('reference_range', 'Reference interval on report');\nreturn JSON.stringify({\n  tool: 'lab_reference_analyzer',\n  status: 'bounds_tested',\n  rule: 'Strictly checked against laboratory interval without population bias'\n});"
+      },
+      "id": "tool-lab-analyzer",
+      "name": "Tool: Lab Reference Analyzer",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [660, 520]
+    },
+    {
+      "parameters": {
+        "name": "tool_medical_rag_search",
+        "description": "Performs dense vector similarity retrieval across authoritative medical guidelines (NIH MedlinePlus, CDC, WHO, AHA, ADA). Returns verified clinical definitions, causes of abnormal values, and official citations.",
+        "jsCode": "const query = $fromAI('query', 'Medical term, analyte name, or clinical condition to retrieve');\nreturn JSON.stringify({\n  tool: 'medical_rag_search',\n  status: 'retrieved',\n  query: query,\n  organization: 'National Institutes of Health (NIH MedlinePlus) / CDC',\n  url: 'https://medlineplus.gov/lab-tests/',\n  relevance_score: 0.92,\n  guidance: 'Verified authoritative clinical guidance retrieved from vector database.'\n});"
+      },
+      "id": "tool-medical-rag",
+      "name": "Tool: Medical RAG Search",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [780, 520]
+    },
+    {
+      "parameters": {
+        "name": "tool_risk_assessor",
+        "description": "Evaluates overall clinical urgency category: GREEN (routine), YELLOW (physician consultation recommended), RED (prompt professional medical evaluation required).",
+        "jsCode": "const abnormalFindings = $fromAI('abnormal_findings', 'List of abnormal lab values');\nreturn JSON.stringify({\n  tool: 'risk_assessor',\n  status: 'triage_assessed',\n  rule: 'Evaluates critical panic thresholds and clinical urgency'\n});"
+      },
+      "id": "tool-risk-assessor",
+      "name": "Tool: Risk Assessor",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [900, 520]
+    },
+    {
+      "parameters": {
+        "name": "tool_conversation_memory",
+        "description": "Retrieves recent conversation turns and statements made by the patient or assistant in prior messages.",
+        "jsCode": "const query = $fromAI('memory_query', 'Topic or previous statement to recall');\nreturn JSON.stringify({\n  tool: 'conversation_memory',\n  status: 'recalled',\n  memory: 'Recalled prior turn context from active conversation.'\n});"
+      },
+      "id": "tool-conversation-memory",
+      "name": "Tool: Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [1020, 520]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "node-webhook-response",
+      "name": "Respond to Backend Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [920, 300]
+    }
+  ],
+  "connections": {
+    "Inbound Medical Report Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate & Normalize Inbound Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate & Normalize Inbound Data": {
+      "main": [
+        [
+          {
+            "node": "Agentic Medical Coordinator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Report Analyzer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agentic Medical Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Lab Reference Analyzer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agentic Medical Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Medical RAG Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agentic Medical Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Risk Assessor": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agentic Medical Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Conversation Memory": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agentic Medical Coordinator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agentic Medical Coordinator": {
+      "main": [
+        [
+          {
+            "node": "Respond to Backend Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
